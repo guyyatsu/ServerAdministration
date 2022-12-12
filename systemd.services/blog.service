@@ -1,0 +1,19 @@
+[Unit]
+Description=Jekyll blogging service
+After=syslog.target network.target
+
+[Service]
+User=root
+Type=simple
+WorkingDirectory=/administrator/websites/guyyatsu.me/blog
+ExecStart=bundle exec jekyll serve --watch
+ExecStop=/usr/bin/pkill -f jekyll
+Restart=always
+TimeoutStartSec=60
+RestartSec=60
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=jekyll
+
+[Install]
+WantedBy=multi-user.target network-online.target

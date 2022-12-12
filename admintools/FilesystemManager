@@ -1,0 +1,84 @@
+#!/bin/python3
+""" _          _           ___ _____   _____ _ _        ____            _                 
+   | |    __ _| |__       / _ \___ /  |  ___(_) | ___  / ___| _   _ ___| |_ ___ _ __ ___  
+   | |   / _` | '_ \ ____| (_) ||_ \  | |_  | | |/ _ \ \___ \| | | / __| __/ _ \ '_ ` _ \ 
+   | |__| (_| | |_) |_____\__, |__) | |  _| | | |  __/  ___) | |_| \__ \ ||  __/ | | | | |
+   |_____\__,_|_.__/        /_/____/  |_|   |_|_|\___| |____/ \__, |___/\__\___|_| |_| |_|
+                                                              |___/                       
+   =======================================================================================
+   =======================================================================================
+"""
+
+
+from glob import glob as golb
+import subprocess as CMD
+
+
+
+class filesystem:
+
+  def __init__(self, *filepaths)
+    """ """
+
+    Extensions={ "archi": ["tar","zip","gz"],
+                 "audio": ["pcm","wav","aiff","mp3","aac","ogg","wma","flac","alac"],
+                 "docum": ["pdf","htm","html","ods"],
+                 "image": ["jpeg","jpg","gif","svg","png","ico","tif","tiff"],
+                 "shell": ["sh","py","js","rs"],
+                 "video": ["mp4","mov","wmv","avi","avchd","flv","f4v","swf","mkv","webm","html5","mp2"] }
+
+    Handlers = { "archi": self.archives,
+                 "audio": self.sounds,
+                 "docum": self.documents,
+                 "image": self.images,
+                 "shell": self.scripts,
+                 "video": self.videos     }
+
+    fTypes = self.Extensions.keys()
+
+
+    def typefile(file: str):
+      for filetype in fTypes:
+        if fileExt(file) in Extensions[filetype]:
+          return str(filetype)
+
+
+    fileName= lambda file: str(file).replace(" ", "_")
+    filePath= lambda file: CMD.run("mv", file, fileName(file))
+    fileExt = lambda file: file.split(".")[-1]
+    fileType= lambda file: typefile(file)
+    
+
+    while True:
+      if not len(filepaths) > 0: break
+      for file in filepaths:
+        self.filePath(file)
+        self.Handlers(fType)(file)
+
+
+  def archives(self, file): return file
+  def sounds(self, file): return file
+  def documents(self, file): return file
+  def images(self, file): return file
+  def scripts(self, file): return file
+
+  def videos(self, file):
+    if file.split(".")[-1] == "mp4": return file
+    fixedFile = file.replace(file.split('.')[-1], "mp4")
+    CMD.run([ "ffmpeg", "-i", file,
+              "-codec", "copy", fixedFile,
+              "&&", "rm", file ]); return fixedFile
+
+
+def RecursionPathing(filepath: str):
+  for file in golb(f"{filepath}/*"):
+    if len(golb(f"{file}/*")) > 0:
+      return RecursionPathing()
+    else:
+      try: file = handle.fileName(file)
+      except: pass
+      try: filetype, extension = handle.fileType(file), handle.fileExt(file)
+      except: pass
+      try:# Execute functionality associated with filetype.
+        KnownExtensions[filetype]["handling"](file)
+      except: pass

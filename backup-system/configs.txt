@@ -1,0 +1,10 @@
+/etc/dnsmasq.conf
+/etc/dovecot/dovecot.conf
+/etc/fstab
+/etc/hostname
+/etc/hosts
+/etc/nginx/sites-enabled/guyyatsu.me
+/etc/postfix/main.cf
+/etc/postfix/master.cf
+/etc/ssh
+/etc/letsencrypt

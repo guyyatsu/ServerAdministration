@@ -1,0 +1,13 @@
+[Unit]
+Description=Gunicorn instance to serve chatbot
+After=network.target
+
+[Service]
+User=hunter
+Group=www-data
+WorkingDirectory=/administrator/websites/guyyatsu.me/ContactForm/
+Environment=/administrator/websites/guyyatsu.me/ContactForm/bin
+ExecStart=/home/hunter/.local/bin/gunicorn --workers 3 --bind 0.0.0.0:65354 -m 007 app:app
+
+[Install]
+WantedBy=multi-user.target
